@@ -1,0 +1,4 @@
+.maplibregl-user-location-dot,
+.maplibregl-user-location-dot::before {
+  display: none;
+}
