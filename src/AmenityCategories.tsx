@@ -4,6 +4,12 @@ export const AMENITY_CATEGORIES = {
   ATM: 'ATM',
 } as const;
 
-export type AmenityCategory = typeof AMENITY_CATEGORIES[keyof typeof AMENITY_CATEGORIES];
+export type AmenityCategory = keyof typeof AMENITY_CATEGORIES;
 
-export const amenityOptions = Object.values(AMENITY_CATEGORIES);
+export const amenityOptions:AmenityCategory[] = Object.keys(AMENITY_CATEGORIES) as AmenityCategory[];
+
+export const FILTERS: Record<keyof typeof AMENITY_CATEGORIES, string> = {
+  TOILET: '[amenity=toilets]',
+  WATER: '[amenity=drinking_water]',
+  ATM: '[amenity=atm]',
+};

@@ -1,8 +1,8 @@
 import { useState, type SubmitEvent } from 'react'
-import { amenityOptions, type AmenityCategory } from './AmenityCategories'
+import { AMENITY_CATEGORIES, amenityOptions, type AmenityCategory } from './AmenityCategories'
 
 export interface OverlayFormData {
-  category: string
+  category: AmenityCategory
   distance: number
 }
 
@@ -13,7 +13,7 @@ interface OverlayProps {
 }
 
 function Overlay({ isOpen, onClose, onSubmit }: OverlayProps) {
-  const [category, setCategory] = useState(amenityOptions[0])
+  const [category, setCategory] = useState<AmenityCategory>(Object.keys(AMENITY_CATEGORIES)[0] as AmenityCategory)
   const [distance, setDistance] = useState(200)
 
   if (!isOpen) return null
@@ -54,7 +54,7 @@ function Overlay({ isOpen, onClose, onSubmit }: OverlayProps) {
           >
             {amenityOptions.map((option) => (
             <option key={option} value={option}>
-                {option}
+                {AMENITY_CATEGORIES[option]}
             </option>
             ))}
           </select>

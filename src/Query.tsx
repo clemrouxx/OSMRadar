@@ -2,8 +2,7 @@ export interface POIQueryOptions {
   lat: number;
   lon: number;
   distance: number;
-  tagKey: string;
-  tagValue: string;
+  filter:string;
 }
 
 export interface POI {
@@ -26,17 +25,19 @@ interface OverpassElement {
 const DEFAULT_OVERPASS_URL = "https://overpass-api.de/api/interpreter";
 
 export async function findPOIs(opts: POIQueryOptions): Promise<POI[]> {
-  const { lat, lon, distance, tagKey, tagValue } = opts;
+  const { lat, lon, distance, filter } = opts;
   const around = `(around:${distance},${lat},${lon})`;
 
   const query = `
 [out:json][timeout:25];
 (
-  node["${tagKey}"="${tagValue}"]${around};
-  way["${tagKey}"="${tagValue}"]${around};
+  node${filter}${around};
+  way${filter}${around};
 );
 out center tags;
 `.trim();
+
+  console.log(query)
 
   const response = await fetch(DEFAULT_OVERPASS_URL, {
     method: "POST",
