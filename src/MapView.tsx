@@ -1,14 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import type { POI } from './Query'
 
 type DeviceOrientationEventiOS = typeof DeviceOrientationEvent & {
   requestPermission?: () => Promise<'granted' | 'denied'>
 }
 
-function MapView() {
+interface MapViewProps {
+  pois: POI[],
+  onPositionUpdate?: (coords: GeolocationCoordinates) => void,
+}
+
+function MapView({ pois, onPositionUpdate }: MapViewProps) {
   const mapContainer = useRef<HTMLDivElement>(null)
   const mapRef = useRef<maplibregl.Map | null>(null)
+  const poiMarkersRef = useRef<Map<number, maplibregl.Marker>>(new Map())
   const arrowRef = useRef<HTMLDivElement | null>(null)
   const handleOrientationRef = useRef<(event: DeviceOrientationEvent) => void>(() => {})
   const [needsCompassPermission, setNeedsCompassPermission] = useState(false)
@@ -44,7 +51,8 @@ function MapView() {
     const headingMarker = new maplibregl.Marker({ element: arrowEl })
 
     geolocate.on('geolocate', (position: GeolocationPosition) => {
-      headingMarker.setLngLat([position.coords.longitude, position.coords.latitude]).addTo(map)
+        headingMarker.setLngLat([position.coords.longitude, position.coords.latitude]).addTo(map)
+        onPositionUpdate?.(position.coords)
     })
 
     const handleOrientation = (event: DeviceOrientationEvent) => {
@@ -67,10 +75,47 @@ function MapView() {
     return () => {
       window.removeEventListener('deviceorientationabsolute', handleOrientation)
       window.removeEventListener('deviceorientation', handleOrientation)
+      poiMarkersRef.current.forEach((marker) => marker.remove())
+      poiMarkersRef.current.clear()
       map.remove()
       mapRef.current = null
     }
   }, [])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+
+    const markers = poiMarkersRef.current
+    const currentIds = new Set(pois.map((poi) => poi.id))
+
+    // remove markers that no longer exist in the list
+    for (const [id, marker] of markers) {
+      if (!currentIds.has(id)) {
+        marker.remove()
+        markers.delete(id)
+      }
+    }
+
+    // add new markers, or update positions of existing ones
+    for (const poi of pois) {
+      const existing = markers.get(poi.id)
+      if (existing) {
+        existing.setLngLat([poi.lon, poi.lat])
+      } else {
+        const marker = new maplibregl.Marker({ color: '#e63946' })
+          .setLngLat([poi.lon, poi.lat])
+          .addTo(map)
+
+          /*
+        if (poi.tags) {
+          marker.setPopup(new maplibregl.Popup().setText(poi.tags))
+        }*/
+
+        markers.set(poi.id, marker)
+      }
+    }
+  }, [pois])
 
   const enableCompass = async () => {
     const DOE = DeviceOrientationEvent as DeviceOrientationEventiOS

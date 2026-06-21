@@ -1,7 +1,7 @@
 import { useState, type SubmitEvent } from 'react'
 import { amenityOptions, type AmenityCategory } from './AmenityCategories'
 
-interface OverlayFormData {
+export interface OverlayFormData {
   category: string
   distance: number
 }
