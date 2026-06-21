@@ -1,4 +1,10 @@
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+}
+
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
 }

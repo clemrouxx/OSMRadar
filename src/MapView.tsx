@@ -36,7 +36,7 @@ function MapView({ pois, onPositionUpdate }: MapViewProps) {
       trackUserLocation: true,
       showAccuracyCircle: true,
     })
-    map.addControl(geolocate)
+    map.addControl(geolocate,"top-left")
     map.on('load', () => geolocate.trigger())
 
     // Heading arrow, drawn manually — maplibre has no built-in heading cone

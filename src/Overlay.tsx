@@ -40,17 +40,18 @@ function Overlay({ isOpen, onClose, onSubmit }: OverlayProps) {
         overflowY: 'auto',
       }}
     >
-      <button onClick={onClose} style={{ alignSelf: 'flex-end', marginBottom: 16 }}>
-        Close
+      <button onClick={onClose} style={{ alignSelf: 'flex-end', marginBottom: 16 }} className='closebtn'>
+        X
       </button>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{width:"100%",maxWidth:"500px",margin:"0 auto"}}>
         <label style={{ display: 'block', marginBottom: 16 }}>
           Looking for:
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value as AmenityCategory)}
             style={{ display: 'block', width: '100%', marginTop: 4 }}
+            className='dropdown'
           >
             {amenityOptions.map((option) => (
             <option key={option} value={option}>
@@ -64,6 +65,7 @@ function Overlay({ isOpen, onClose, onSubmit }: OverlayProps) {
           Within {distance} m
           <input
             type="range"
+            className='slider'
             min={100}
             max={2000}
             step={100}
@@ -73,7 +75,7 @@ function Overlay({ isOpen, onClose, onSubmit }: OverlayProps) {
           />
         </label>
 
-        <button type="submit" className='submit'>Submit</button>
+        <button type="submit" className='submit btn'>Search</button>
       </form>
     </div>
   )

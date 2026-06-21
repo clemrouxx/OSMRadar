@@ -6,7 +6,7 @@ import { findPOIs, type POI, type POIQueryOptions } from './Query'
 import { FILTERS } from './AmenityCategories'
 
 function App() {
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false)
+  const [isOverlayOpen, setIsOverlayOpen] = useState(true)
   const [userPosition, setUserPosition] = useState<GeolocationCoordinates | null>(null)
   const [pois,setPois] = useState<POI[]>([])
 
@@ -28,13 +28,16 @@ function App() {
     const POIs = await findPOIs(queryOptions)
     setPois(POIs)
     console.log(`Found ${POIs.length} POIS`)
+    if (POIs.length===0){
+      alert("None within this distance.")
+    }
   }
 
 
   return (
     <>
       <MapView pois={pois} onPositionUpdate={setUserPosition} />
-      <button
+      {!isOverlayOpen && <button
         onClick={() => setIsOverlayOpen(true)}
         style={{
           position: 'fixed',
@@ -44,9 +47,10 @@ function App() {
           padding: '10px 16px',
           borderRadius: 8,
         }}
+        className='btn'
       >
-        Open form
-      </button>
+        New search
+      </button>}
       <Overlay isOpen={isOverlayOpen} onClose={() => setIsOverlayOpen(false)} onSubmit={handleFormSubmit} />
     </>
   )
