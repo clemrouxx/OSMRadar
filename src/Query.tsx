@@ -1,13 +1,16 @@
+import { FILTERS, type AmenityCategory } from "./AmenityCategories";
+
 export interface POIQueryOptions {
   lat: number;
   lon: number;
   distance: number;
-  filter:string;
+  category: AmenityCategory;
 }
 
 export interface POI {
   id: number;
   type: "node" | "way";
+  category: AmenityCategory;
   lat: number;
   lon: number;
   tags: Record<string, string>;
@@ -25,7 +28,8 @@ interface OverpassElement {
 const DEFAULT_OVERPASS_URL = "https://overpass-api.de/api/interpreter";
 
 export async function findPOIs(opts: POIQueryOptions): Promise<POI[]> {
-  const { lat, lon, distance, filter } = opts;
+  const { lat, lon, distance, category } = opts;
+  const filter = FILTERS[category];
   const around = `(around:${distance},${lat},${lon})`;
 
   const query = `
@@ -36,8 +40,6 @@ export async function findPOIs(opts: POIQueryOptions): Promise<POI[]> {
 );
 out center tags;
 `.trim();
-
-  console.log(query)
 
   const response = await fetch(DEFAULT_OVERPASS_URL, {
     method: "POST",
@@ -57,5 +59,6 @@ out center tags;
     lat: el.lat ?? el.center!.lat,
     lon: el.lon ?? el.center!.lon,
     tags: el.tags ?? {},
+    category: category,
   }));
 }

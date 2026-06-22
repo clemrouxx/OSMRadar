@@ -3,7 +3,6 @@ import MapView from './MapView'
 import Overlay, { type OverlayFormData } from './Overlay'
 import './App.css'
 import { findPOIs, type POI, type POIQueryOptions } from './Query'
-import { FILTERS } from './AmenityCategories'
 
 function App() {
   const [isOverlayOpen, setIsOverlayOpen] = useState(true)
@@ -18,21 +17,20 @@ function App() {
       return
     }
 
-    console.log('Submitting with location:', userPosition.latitude, userPosition.longitude, data)
     setIsSearching(true)
 
     const queryOptions:POIQueryOptions={
       lat:userPosition.latitude,
       lon:userPosition.longitude,
       distance:data.distance,
-      filter:FILTERS[data.category]
+      category:data.category
     }
 
     let POIs:POI[] = []
     try {
       POIs = await findPOIs(queryOptions);
+      console.log(POIs)
       setPois(POIs)
-      console.log(`Found ${POIs.length} POIS`)
       if (POIs.length===0){
         alert("Sorry, none were found.")
       }

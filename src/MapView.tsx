@@ -2,15 +2,42 @@ import { useEffect, useRef, useState } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { POI } from './Query'
+import type { AmenityCategory } from './AmenityCategories'
 
 type DeviceOrientationEventiOS = typeof DeviceOrientationEvent & {
   requestPermission?: () => Promise<'granted' | 'denied'>
+}
+
+interface MarkerOptions{
+  color:string,html:string
+}
+
+function tagsToMarker(category:AmenityCategory,tags:Record<string,string>):MarkerOptions{
+  let color = '#38a02f'
+  let html = ""
+  switch(category){
+    case "TOILET":
+      if ("access" in tags){
+        html += `Access: ${tags["access"]}`
+      }
+      if ("fee" in tags){
+        html += `<br/>Fee: ${tags["fee"]}`
+      }
+      break
+    case "ATM":
+      if ("operator" in tags){
+        html += `Operator: ${tags["operator"]}`
+      }
+      break
+  }
+  return {color,html}
 }
 
 interface MapViewProps {
   pois: POI[],
   onPositionUpdate?: (coords: GeolocationCoordinates) => void,
 }
+
 
 function MapView({ pois, onPositionUpdate }: MapViewProps) {
   const mapContainer = useRef<HTMLDivElement>(null)
@@ -103,14 +130,14 @@ function MapView({ pois, onPositionUpdate }: MapViewProps) {
       if (existing) {
         existing.setLngLat([poi.lon, poi.lat])
       } else {
-        const marker = new maplibregl.Marker({ color: '#e63946' })
+        const markerOptions = tagsToMarker(poi.category,poi.tags)
+        const marker = new maplibregl.Marker({ color: '#38a02f' })
           .setLngLat([poi.lon, poi.lat])
           .addTo(map)
-
-          /*
-        if (poi.tags) {
-          marker.setPopup(new maplibregl.Popup().setText(poi.tags))
-        }*/
+          
+        if (markerOptions.html !== "") {
+          marker.setPopup(new maplibregl.Popup().setHTML(markerOptions.html))
+        }
 
         markers.set(poi.id, marker)
       }
