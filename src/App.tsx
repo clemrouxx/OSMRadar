@@ -34,15 +34,17 @@ function App() {
       setPois(POIs)
       console.log(`Found ${POIs.length} POIS`)
       if (POIs.length===0){
-        alert("None within this distance.")
+        alert("Sorry, none were found.")
       }
     } catch (error) {
       if (error instanceof Error) {
-        console.error("Failed to fetch POIs:", error.message);
+        
+        console.error("Failed to fetch POIs:", error);
+        alert(`Sorry, something went wrong: ${error.message}`)
       } else {
         console.error("Unknown error fetching POIs:", error);
+        alert("Sorry, something went wrong.")
       }
-      alert("Error")
     }
     finally{
       setIsSearching(false)
