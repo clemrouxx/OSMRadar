@@ -14,23 +14,34 @@ interface MarkerOptions{
 
 function tagsToMarker(category:AmenityCategory,tags:Record<string,string>):MarkerOptions{
   let color = '#38a02f'
-  let html = ""
+  let lines:string[] = []
   switch(category){
     case "TOILET":
       if ("access" in tags){
-        html += `Access: ${tags["access"]}`
+        lines.push(`Access: ${tags["access"]}`)
       }
       if ("fee" in tags){
-        html += `<br/>Fee: ${tags["fee"]}`
+        lines.push(`Fee: ${tags["fee"]}`)
       }
       break
     case "ATM":
       if ("operator" in tags){
-        html += `Operator: ${tags["operator"]}`
+        lines.push(`Operator: ${tags["operator"]}`)
+      }
+      break
+    case "DEFIBRILLATOR":
+      if ("indoor" in tags){
+        lines.push(tags["indoor"]==="yes"?"Indoor":"Outdoor")
+      }
+      if ("level" in tags){
+        lines.push(`Level: ${tags["level"]}`)
+      }
+      if ("access" in tags){
+        lines.push(`Access: ${tags["access"]}`)
       }
       break
   }
-  return {color,html}
+  return {color,html:lines.join("<br/>")}
 }
 
 interface MapViewProps {
