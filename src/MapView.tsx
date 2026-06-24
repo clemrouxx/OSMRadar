@@ -97,7 +97,13 @@ function MapView({ pois, onPositionUpdate }: MapViewProps) {
       const iosHeading = (event as DeviceOrientationEvent & { webkitCompassHeading?: number }).webkitCompassHeading
       const heading = iosHeading ?? (event.alpha != null ? 360 - event.alpha : null)
       if (heading != null && arrowRef.current) {
-        arrowRef.current.style.transform = `rotate(${heading}deg)`
+        const firstChild = arrowRef.current?.children[0];
+        if (firstChild instanceof SVGElement) {
+          firstChild.style.transform = `rotate(${heading}deg)`;
+        }
+      }
+      else{
+        console.warn("No defined heading")
       }
     }
     handleOrientationRef.current = handleOrientation
