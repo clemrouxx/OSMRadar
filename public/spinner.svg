@@ -24,15 +24,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="4.9040656"
-     inkscape:cx="-4.58803"
-     inkscape:cy="29.261436"
+     inkscape:zoom="6.8549535"
+     inkscape:cx="23.851365"
+     inkscape:cy="28.519522"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1"
+     inkscape:current-layer="addgroup"
      showgrid="false">
     <inkscape:grid
        id="grid7"
@@ -52,30 +52,6 @@
   <defs
      id="defs1">
     <linearGradient
-       id="linearGradient16"
-       inkscape:collect="always">
-      <stop
-         style="stop-color:#ffffff;stop-opacity:0;"
-         offset="0"
-         id="stop15" />
-      <stop
-         style="stop-color:#ffffff;stop-opacity:1"
-         offset="1"
-         id="stop16" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient14"
-       inkscape:collect="always">
-      <stop
-         style="stop-color:#ffffff;stop-opacity:0;"
-         offset="0"
-         id="stop13" />
-      <stop
-         style="stop-color:#ffffff;stop-opacity:1"
-         offset="1"
-         id="stop14" />
-    </linearGradient>
-    <linearGradient
        id="linearGradient10"
        inkscape:collect="always">
       <stop
@@ -83,7 +59,7 @@
          offset="0"
          id="stop11" />
       <stop
-         style="stop-color:#ffffff;stop-opacity:0;"
+         style="stop-color:#39cd43;stop-opacity:0;"
          offset="1"
          id="stop12" />
     </linearGradient>
@@ -91,33 +67,61 @@
        inkscape:collect="always"
        xlink:href="#linearGradient10"
        id="linearGradient12"
-       x1="6.3499999"
-       y1="6.3500009"
-       x2="4.4544392"
-       y2="3.9078135"
+       x1="11.492806"
+       y1="2.8193233"
+       x2="6.3402338"
+       y2="2.822464"
        gradientUnits="userSpaceOnUse"
        gradientTransform="translate(-11.434417,-3.6181384)" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient14"
-       id="linearGradient13"
+       xlink:href="#linearGradient10"
+       id="linearGradient2"
        gradientUnits="userSpaceOnUse"
-       x1="8.8435049"
-       y1="5.2174602"
-       x2="5.7121949"
-       y2="3.7221901"
-       gradientTransform="translate(-11.4345,-3.6182558)" />
+       gradientTransform="translate(-11.434417,-3.6181384)"
+       x1="10.917212"
+       y1="5.5437989"
+       x2="6.8063283"
+       y2="4.3190069" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient16"
-       id="linearGradient15"
+       xlink:href="#linearGradient10"
+       id="linearGradient3"
        gradientUnits="userSpaceOnUse"
-       x1="8.5231371"
-       y1="6.4407787"
-       x2="6.3500009"
-       y2="6.3500004"
-       gradientTransform="translate(-11.434417,-3.6181378)" />
+       gradientTransform="translate(-11.434417,-3.6181384)"
+       x1="8.2124844"
+       y1="5.6181879"
+       x2="7.0989475"
+       y2="4.9329734" />
   </defs>
+  <g
+     id="g1"
+     style="mix-blend-mode:normal">
+    <g
+       id="addgroup"
+       transform="translate(11.434555,3.6179372)"
+       style="display:inline">
+      <path
+         id="path1"
+         style="display:inline;opacity:0.695;mix-blend-mode:normal;fill:url(#linearGradient12);stroke:none;stroke-width:0.106627;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+         d="m -8.6825542,-2.4190954 a 6.2834577,6.2834577 0 0 1 8.7490965,1.5528203 L -10.235374,6.3300002 a 6.2834577,6.2834577 0 0 1 1.5528198,-8.7490956 z" />
+      <path
+         id="path2"
+         style="display:inline;opacity:1;mix-blend-mode:normal;fill:url(#linearGradient2);stroke:none;stroke-width:0.106627;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+         d="m -8.6825542,-2.4190954 a 6.2834577,6.2834577 0 0 1 8.7490965,1.5528203 L -10.235374,6.3300002 a 6.2834577,6.2834577 0 0 1 1.5528198,-8.7490956 z" />
+      <path
+         id="path3"
+         style="display:inline;opacity:0.5;mix-blend-mode:normal;fill:url(#linearGradient3);stroke:none;stroke-width:0.106627;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+         d="M -4.8034352,-3.5450734 A 6.2834577,6.2834577 0 0 0 -8.682785,-2.419044 6.2834577,6.2834577 0 0 0 -9.5276946,-1.7110768 L -5.084555,2.7320628 0.06655177,-0.86616718 A 6.2834577,6.2834577 0 0 0 -4.8034352,-3.5450734 Z" />
+    </g>
+    <animateTransform
+       attributeName="transform"
+       type="rotate"
+       from="0 6.35 6.35"
+       to="360 6.35 6.35"
+       dur="2s"
+       repeatCount="indefinite" />
+  </g>
   <g
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
@@ -179,33 +183,6 @@
        cx="6.3499999"
        cy="6.3499999"
        r="4.2037716" />
-  </g>
-  <g
-     id="g1"
-     style="mix-blend-mode:darken">
-	 
-	 <g id="addgroup"
-     transform="translate(11.434555,3.6179372)">
-		<path
-		   id="path1"
-		   style="mix-blend-mode:lighten;fill:url(#linearGradient12);stroke:none;stroke-width:0.106627;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
-		   d="m -8.6825542,-2.4190954 a 6.2834577,6.2834577 0 0 1 8.7490965,1.5528203 L -10.235374,6.3300002 a 6.2834577,6.2834577 0 0 1 1.5528198,-8.7490956 z" />
-		<path
-		   id="path14"
-		   style="mix-blend-mode:lighten;fill:url(#linearGradient15);fill-opacity:1;stroke:none;stroke-width:0.106627;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
-		   d="m -8.6825542,-2.4190947 a 6.2834577,6.2834577 0 0 1 8.7490957,1.55282 l -10.3019155,7.196274 a 6.2834577,6.2834577 0 0 1 1.5528198,-8.749094 z" />
-		<path
-		   id="path12"
-		   style="mix-blend-mode:lighten;fill:url(#linearGradient13);fill-opacity:1;stroke:none;stroke-width:0.106627;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
-		   d="m -8.6826368,-2.4192134 a 6.2834577,6.2834577 0 0 1 8.74909658,1.55282017 L -10.235457,6.3298822 a 6.2834577,6.2834577 0 0 1 1.5528202,-8.7490956 z" />
-	</g>
-	<animateTransform
-      attributeName="transform"
-      type="rotate"
-      from="0 6.35 6.35"
-      to="360 6.35 6.35"
-      dur="2s"
-      repeatCount="indefinite" />
   </g>
   <script
      id="script1"
