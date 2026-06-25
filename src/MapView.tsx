@@ -12,16 +12,24 @@ interface MarkerOptions{
   color:string,html:string
 }
 
+const DEFAULT_COLOR = '#52eb23'
+const VARIANT_COLOR = '#bb16ad'
+const VARIANT_COLOR_2 = '#1394c7'
+const NO_ACCESS_COLOR = '#977fa0'
+const YES_COLOR = '#249b00'
+
 function tagsToMarker(category:AmenityCategory,tags:Record<string,string>):MarkerOptions{
-  let color = '#38a02f'
+  let color = DEFAULT_COLOR
   let lines:string[] = []
   switch(category){
     case "TOILET":
       if ("access" in tags){
         lines.push(`Access: ${tags["access"]}`)
+        if (tags.access==="no") color=NO_ACCESS_COLOR
       }
       if ("fee" in tags){
         lines.push(`Fee: ${tags["fee"]}`)
+        if (tags.access==="yes" && tags.fee==="no") color=YES_COLOR
       }
       break
     case "ATM":
@@ -31,7 +39,9 @@ function tagsToMarker(category:AmenityCategory,tags:Record<string,string>):Marke
       break
     case "DEFIBRILLATOR":
       if ("indoor" in tags){
-        lines.push(tags["indoor"]==="yes"?"Indoor":"Outdoor")
+        console.log("indoor =", tags.indoor);
+        lines.push(tags.indoor==="yes"?"Indoor":"Outdoor")
+        color = tags.indoor==="yes"?VARIANT_COLOR:VARIANT_COLOR_2
       }
       if ("level" in tags){
         lines.push(`Level: ${tags["level"]}`)
@@ -148,7 +158,7 @@ function MapView({ pois, onPositionUpdate }: MapViewProps) {
         existing.setLngLat([poi.lon, poi.lat])
       } else {
         const markerOptions = tagsToMarker(poi.category,poi.tags)
-        const marker = new maplibregl.Marker({ color: '#38a02f' })
+        const marker = new maplibregl.Marker({ color:markerOptions.color })
           .setLngLat([poi.lon, poi.lat])
           .addTo(map)
           
