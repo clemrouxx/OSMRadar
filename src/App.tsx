@@ -69,21 +69,14 @@ function App() {
       >
         New search
       </button>}
-      {isSearching  && <img
-      src={"spinner.svg"}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        width: '100vw',
-        height: '100vh',
-        zIndex: 1,
-        mixBlendMode: 'multiply',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%) scale(1.5)', // 1.5x bigger
-        pointerEvents: 'none',
-      }}
-    />}
+      {isSearching && <div
+        style={{position: "fixed",inset: 0,display: "flex",justifyContent: "center",alignItems: "center",overflow: "hidden",}}>
+        <img
+          src={"spinner.svg"}
+          alt=""
+          style={{width: "100vw",height: "100vh",objectFit: "contain",display: "block",}}
+        />
+      </div>}
       <Overlay isOpen={isOverlayOpen} onClose={() => setIsOverlayOpen(false)} onSubmit={handleFormSubmit} />
     </>
   )
