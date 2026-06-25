@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import MapView from './MapView'
+import { useRef, useState } from 'react'
+import MapView, { type MapViewRef } from './MapView'
 import Overlay, { type OverlayFormData } from './Overlay'
 import './App.css'
 import { findPOIs, type POI, type POIQueryOptions } from './Query'
@@ -9,6 +9,7 @@ function App() {
   const [isSearching,setIsSearching] = useState(false)
   const [userPosition, setUserPosition] = useState<GeolocationCoordinates | null>(null)
   const [pois,setPois] = useState<POI[]>([])
+  const mapViewRef = useRef<MapViewRef>(null);
 
   const handleFormSubmit = async (data: OverlayFormData) => {
     if (!userPosition) {
@@ -25,6 +26,7 @@ function App() {
       distance:data.distance,
       category:data.category
     }
+    mapViewRef.current?.fitTarget([queryOptions.lon,queryOptions.lat],queryOptions.distance)
 
     let POIs:POI[] = []
     try {
@@ -52,7 +54,7 @@ function App() {
 
   return (
     <>
-      <MapView pois={pois} onPositionUpdate={setUserPosition} />
+      <MapView pois={pois} onPositionUpdate={setUserPosition} ref={mapViewRef} />
       {!isOverlayOpen && <button
         onClick={() => setIsOverlayOpen(true)}
         style={{

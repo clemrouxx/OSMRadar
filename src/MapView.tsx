@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import maplibregl from 'maplibre-gl'
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import maplibregl, { type LngLatBoundsLike } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { POI } from './Query'
 import type { AmenityCategory } from './AmenityCategories'
@@ -54,13 +54,42 @@ function tagsToMarker(category:AmenityCategory,tags:Record<string,string>):Marke
   return {color,html:lines.join("<br/>")}
 }
 
+export type MapViewRef = {
+  fitTarget: (
+    center: [number,number], // [lng,lat]
+    radius:number,
+  ) => void;
+};
+
+function fitRadius(
+  map: maplibregl.Map,
+  center: [number, number], // [lng, lat]
+  radiusMeters: number
+) {
+  const [lng, lat] = center;
+
+  // Approximate conversion meters -> degrees
+  const latDelta = radiusMeters / 111_320;
+  const lngDelta =
+    radiusMeters / (111_320 * Math.cos(lat * Math.PI / 180));
+
+  const bounds: LngLatBoundsLike = [
+    [lng - lngDelta, lat - latDelta],
+    [lng + lngDelta, lat + latDelta],
+  ];
+
+  map.fitBounds(bounds, {
+    padding: 20,
+    animate: false,
+  });
+}
+
 interface MapViewProps {
   pois: POI[],
   onPositionUpdate?: (coords: GeolocationCoordinates) => void,
 }
 
-
-function MapView({ pois, onPositionUpdate }: MapViewProps) {
+export const MapView = forwardRef<MapViewRef,MapViewProps>(({ pois, onPositionUpdate },ref)=> {
   const mapContainer = useRef<HTMLDivElement>(null)
   const mapRef = useRef<maplibregl.Map | null>(null)
   const poiMarkersRef = useRef<Map<number, maplibregl.Marker>>(new Map())
@@ -68,14 +97,20 @@ function MapView({ pois, onPositionUpdate }: MapViewProps) {
   const handleOrientationRef = useRef<(event: DeviceOrientationEvent) => void>(() => {})
   const [needsCompassPermission, setNeedsCompassPermission] = useState(false)
 
+  useImperativeHandle(ref, () => ({
+    fitTarget(center, radius) {
+      if (mapRef.current) fitRadius(mapRef.current,center,radius)
+    },
+  }));
+
   useEffect(() => {
     if (!mapContainer.current || mapRef.current) return
 
     const map = new maplibregl.Map({
       container: mapContainer.current,
       style: 'https://tiles.openfreemap.org/styles/liberty',
-      center: [2, 48],
-      zoom: 13,
+      center: [0,40],
+      zoom: 3,
     })
     mapRef.current = map
 
@@ -171,6 +206,7 @@ function MapView({ pois, onPositionUpdate }: MapViewProps) {
     }
   }, [pois])
 
+
   const enableCompass = async () => {
     const DOE = DeviceOrientationEvent as DeviceOrientationEventiOS
     const result = await DOE.requestPermission?.()
@@ -201,6 +237,6 @@ function MapView({ pois, onPositionUpdate }: MapViewProps) {
       )}
     </>
   )
-}
+});
 
 export default MapView
