@@ -29,17 +29,22 @@ const DEFAULT_OVERPASS_URL = "https://overpass-api.de/api/interpreter";
 
 export async function findPOIs(opts: POIQueryOptions): Promise<POI[]> {
   const { lat, lon, distance, category } = opts;
-  const filter = FILTERS[category];
+  const filters = FILTERS[category];
   const around = `(around:${distance},${lat},${lon})`;
 
+  const filterClauses = filters.flatMap((filter) => [
+    `node${filter}${around};`,
+    `way${filter}${around};`,
+  ]);
+
   const query = `
-[out:json][timeout:25];
-(
-  node${filter}${around};
-  way${filter}${around};
-);
-out center tags;
-`.trim();
+  [out:json][timeout:25];
+  (
+    ${filterClauses.join('\n  ')}
+  );
+  out center tags;
+  `.trim();
+  console.log(query)
 
   const response = await fetch(DEFAULT_OVERPASS_URL, {
     method: "POST",

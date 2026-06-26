@@ -31,7 +31,6 @@ function App() {
     let POIs:POI[] = []
     try {
       POIs = await findPOIs(queryOptions);
-      console.log(POIs)
       setPois(POIs)
       if (POIs.length===0){
         alert("Sorry, none were found.")
@@ -50,7 +49,6 @@ function App() {
       setIsSearching(false)
     }
   }
-
 
   return (
     <>

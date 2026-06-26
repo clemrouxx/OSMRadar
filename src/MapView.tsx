@@ -50,6 +50,18 @@ function tagsToMarker(category:AmenityCategory,tags:Record<string,string>):Marke
         lines.push(`Access: ${tags["access"]}`)
       }
       break
+    case "RECYCLING":
+      let accepted:string[] = []
+      for (let key in tags){
+        if (key.startsWith("recycling:")){
+          if (tags[key]==="yes") accepted.push((key.split(":").at(-1) as string).replaceAll("_"," "))
+        }
+      }
+      if (accepted.length>=1){
+        lines.push(accepted.join(", "))
+        color=YES_COLOR
+      }
+      break
   }
   return {color,html:lines.join("<br/>")}
 }
